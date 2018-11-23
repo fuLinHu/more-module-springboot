@@ -1,1 +1,8 @@
 # Created by .ignore support plugin (hsz.mobi)
+
+/.idea/
+/app/.mvn/
+/browser/.mvn/
+/core/.mvn/
+/demo/.mvn/
+/scurity.iml
