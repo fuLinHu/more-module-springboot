@@ -1,19 +1,19 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=yes&characterEncoding=utf-8&useSSL=true
+    url: jdbc:mysql://127.0.0.1:3306/test44?useUnicode=yes&characterEncoding=utf-8&useSSL=true
     username: root
     password: root
   session:
-    store-type: redis
-#  redis:
-#    host:
-#    port:
+    store-type: none
+  security:
+    user:
+      password: 123456
+      name: fulinhu
 
-#security:
-#  basic:
-#  # 打开/关闭spring security 打开默认的用户名为user，密码是程序启动时输出的
-#    enabled: true
+#       basic:
+#                # 打开/关闭spring security 打开默认的用户名为user，密码是程序启动时输出的
+#                  enabled: false
 ##  oauth2:
 ##    client:
 ##      client-id: gwf
