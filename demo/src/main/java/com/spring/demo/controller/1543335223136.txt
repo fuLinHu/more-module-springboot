@@ -1,0 +1,439 @@
+/*==============================================================*/
+/* DBMS name:      MySQL 5.0                                    */
+/* Created on:     2017/11/29 22:25:13                          */
+/*==============================================================*/
+
+
+drop table if exists DAT_CHECK_DATA;
+
+drop table if exists MST_CODE;
+
+drop table if exists MST_DIST;
+
+drop table if exists MST_EQUIP;
+
+drop table if exists MST_ORG;
+
+drop table if exists MST_ORG_REF;
+
+drop table if exists MST_SITE;
+
+drop table if exists STA_CHECK_DAY;
+
+drop table if exists STA_CHECK_PERIOD;
+
+drop table if exists SYS_FILE;
+
+drop table if exists SYS_FUNC;
+
+drop table if exists SYS_LOG;
+
+drop table if exists SYS_PARAM;
+
+drop table if exists SYS_ROLE;
+
+drop table if exists SYS_ROLE_FUNC;
+
+drop table if exists SYS_TASK;
+
+drop table if exists SYS_USER;
+
+/*==============================================================*/
+/* Table: DAT_CHECK_DATA                                        */
+/*==============================================================*/
+create table DAT_CHECK_DATA
+(
+   CHECK_NO             varchar(32) not null,
+   CHECK_TYPE           varchar(1) not null,
+   SITE_ID              varchar(32) not null,
+   EQUIP_ID             varchar(32),
+   LINE                 varchar(2),
+   VEHICLE_NO           varchar(12),
+   VEHICLE_TYPE         varchar(4),
+   AXLES                numeric(1,0),
+   TYRES                numeric(2,0),
+   CHECK_RESULT         varchar(1) not null,
+   CHECK_BY             varchar(40),
+   CHECK_TIME           timestamp not null,
+   SPEED                numeric(5,2),
+   LIMIT_TOTAL          numeric(6,0),
+   OVER_TOTAL           numeric(6,0),
+   TOTAL                numeric(6,0) not null default 0,
+   DESC_INFO            varchar(200),
+   CREATE_BY            varchar(40) not null,
+   CREATE_TIME          timestamp not null,
+   UPDATE_BY            varchar(40) not null,
+   UPDATE_TIME          timestamp not null,
+   primary key (CHECK_NO)
+);
+
+/*==============================================================*/
+/* Table: MST_CODE                                              */
+/*==============================================================*/
+create table MST_CODE
+(
+   TYPE                 varchar(40) not null,
+   CODE                 varchar(40) not null,
+   NAME                 varchar(100) not null,
+   ATTR01               varchar(200),
+   ATTR02               varchar(200),
+   ATTR03               varchar(200),
+   ATTR04               varchar(200),
+   ATTR05               varchar(200),
+   ATTR06               varchar(200),
+   ATTR07               varchar(200),
+   ATTR08               varchar(200),
+   ATTR09               varchar(200),
+   ATTR10               varchar(200),
+   ORDER_SEQ            numeric(6,0),
+   EXPIRED              timestamp,
+   DESC_INFO            varchar(200),
+   CREATE_BY            varchar(40) not null,
+   CREATE_TIME          timestamp not null,
+   UPDATE_BY            varchar(40) not null,
+   UPDATE_TIME          timestamp not null,
+   primary key (TYPE, CODE)
+);
+
+/*==============================================================*/
+/* Table: MST_DIST                                              */
+/*==============================================================*/
+create table MST_DIST
+(
+   DIST_CODE            varchar(6) not null,
+   SJDM                 varchar(2) not null,
+   DSDM                 varchar(2) not null,
+   QXDM                 varchar(2) not null,
+   DIST_NAME            varchar(100) not null,
+   SJMC                 varchar(100),
+   DSMC                 varchar(100),
+   QXMC                 varchar(100),
+   SHORT                varchar(40),
+   LEAF                 varchar(1) not null,
+   DESC_INFO            varchar(200),
+   CREATE_BY            varchar(40) not null,
+   CREATE_TIME          timestamp not null,
+   UPDATE_BY            varchar(40) not null,
+   UPDATE_TIME          timestamp not null,
+   primary key (DIST_CODE)
+);
+
+/*==============================================================*/
+/* Table: MST_EQUIP                                             */
+/*==============================================================*/
+create table MST_EQUIP
+(
+   EQUIP_ID             varchar(32) not null,
+   EQUIP_TYPE           varchar(1) not null,
+   EQUIP_STATUS         varchar(1) not null,
+   SITE_ID              varchar(32) not null,
+   MODEL                varchar(40) not null,
+   MAKER                varchar(40) not null,
+   CONTACT              varchar(40),
+   TEL                  varchar(24),
+   INST_DATE            timestamp,
+   CHECK_DATE           timestamp,
+   CHECK_LINE           varchar(1),
+   LAST_IP              varchar(40),
+   LAST_TIME            timestamp,
+   EXPIRED              timestamp,
+   DESC_INFO            varchar(200),
+   CREATE_BY            varchar(40) not null,
+   CREATE_TIME          timestamp not null,
+   UPDATE_BY            varchar(40) not null,
+   UPDATE_TIME          timestamp not null,
+   primary key (EQUIP_ID)
+);
+
+/*==============================================================*/
+/* Table: MST_ORG                                               */
+/*==============================================================*/
+create table MST_ORG
+(
+   ORG_ID               varchar(32) not null,
+   ORG_CODE             varchar(11) not null,
+   ORG_NAME             varchar(100) not null,
+   ORG_TYPE             varchar(2) not null,
+   DIST_CODE            varchar(6) not null,
+   PARENT_ID            varchar(32),
+   CONTACT              varchar(40),
+   TEL                  varchar(24),
+   FAX                  varchar(24),
+   MAIL                 varchar(100),
+   ADDRESS              varchar(100),
+   POSTCODE             varchar(20),
+   LEAF                 varchar(1) not null,
+   EXPIRED              timestamp,
+   DESC_INFO            varchar(200),
+   CREATE_BY            varchar(40) not null,
+   CREATE_TIME          timestamp not null,
+   UPDATE_BY            varchar(40) not null,
+   UPDATE_TIME          timestamp not null,
+   primary key (ORG_ID)
+);
+
+/*==============================================================*/
+/* Table: MST_ORG_REF                                           */
+/*==============================================================*/
+create table MST_ORG_REF
+(
+   ORG_ID               varchar(32) not null,
+   PARENT_ID            varchar(32) not null,
+   primary key (ORG_ID, PARENT_ID)
+);
+
+/*==============================================================*/
+/* Table: MST_SITE                                              */
+/*==============================================================*/
+create table MST_SITE
+(
+   SITE_ID              varchar(32) not null,
+   SITE_NAME            varchar(40) not null,
+   SITE_TYPE            varchar(1) not null comment '代码分类：路线类型[LXLX]',
+   DIST_CODE            varchar(6),
+   ORG_ID               varchar(32) not null,
+   MASTER               varchar(40),
+   LINE1                numeric(2,0) not null,
+   LINE2                numeric(2,0),
+   PARKS                numeric(2,0),
+   TOTAL_AREA           numeric(5,1),
+   SITE_IMG             varchar(1000),
+   TEL                  varchar(24),
+   BUILD_DATE           timestamp,
+   EXPIRED              timestamp,
+   DESC_INFO            varchar(200),
+   CREATE_BY            varchar(40) not null,
+   CREATE_TIME          timestamp not null,
+   UPDATE_BY            varchar(40) not null,
+   UPDATE_TIME          timestamp not null,
+   primary key (SITE_ID),
+   key AK_MST_SITE_01 (SITE_NAME)
+);
+
+/*==============================================================*/
+/* Table: STA_CHECK_DAY                                         */
+/*==============================================================*/
+create table STA_CHECK_DAY
+(
+   YEAR                 numeric(4,0) not null,
+   SITE_ID              varchar(32) not null,
+   CHECK_DAY            timestamp not null,
+   CHECK_COUNT          numeric(10,0),
+   OVER_COUNT           numeric(10,0),
+   OVER_TOTAL           numeric(10,0),
+   BIG_OVER_COUNT       numeric(10,0),
+   ZS_2                 numeric(10,0),
+   ZS_3                 numeric(10,0),
+   ZS_4                 numeric(10,0),
+   ZS_5                 numeric(10,0),
+   ZS_6                 numeric(10,0),
+   ZS_6YS               numeric(10,0),
+   CXL55YS              numeric(10,0),
+   CX0_10               numeric(10,0),
+   CX10_30              numeric(10,0),
+   CX30_60              numeric(10,0),
+   CX60_100             numeric(10,0),
+   CX100_               numeric(10,0),
+   UPDATE_BY            varchar(40) not null,
+   UPDATE_TIME          timestamp not null
+);
+
+/*==============================================================*/
+/* Table: STA_CHECK_PERIOD                                      */
+/*==============================================================*/
+create table STA_CHECK_PERIOD
+(
+   YEAR                 numeric(4,0) not null,
+   SITE_ID              varchar(32) not null,
+   PERIOD_TYPE          varchar(1) not null,
+   PERIOD               numeric(4,0) not null,
+   CHECK_COUNT          numeric(10,0),
+   OVER_COUNT           numeric(10,0),
+   OVER_TOTAL           numeric(10,0),
+   BIG_OVER_COUNT       numeric(10,0),
+   ZS_2                 numeric(10,0),
+   ZS_3                 numeric(10,0),
+   ZS_4                 numeric(10,0),
+   ZS_5                 numeric(10,0),
+   ZS_6                 numeric(10,0),
+   ZS_6YS               numeric(10,0),
+   CXL55YS              numeric(10,0),
+   CX0_10               numeric(10,0),
+   CX10_30              numeric(10,0),
+   CX30_60              numeric(10,0),
+   CX60_100             numeric(10,0),
+   CX100_               numeric(10,0),
+   UPDATE_BY            varchar(40) not null,
+   UPDATE_TIME          timestamp not null
+);
+
+/*==============================================================*/
+/* Table: SYS_FILE                                              */
+/*==============================================================*/
+create table SYS_FILE
+(
+   KEY                  varchar(32) not null,
+   TYPE                 varchar(1) not null,
+   NAME                 varchar(80) not null,
+   EXT                  varchar(8),
+   BYTES                numeric(12,0) not null,
+   DATA                 longblob not null,
+   EXPIRED              timestamp,
+   DESC_INFO            varchar(200),
+   UPDATE_BY            varchar(40) not null,
+   UPDATE_TIME          timestamp not null,
+   primary key (KEY)
+);
+
+/*==============================================================*/
+/* Table: SYS_FUNC                                              */
+/*==============================================================*/
+create table SYS_FUNC
+(
+   FUNC_CODE            varchar(40) not null,
+   FUNC_NAME            varchar(40),
+   FUNC_TYPE            varchar(40),
+   FUNC_PATH            varchar(40),
+   ORDER_SEQ            numeric(10,0),
+   DISABLE_FLAH         varchar(1),
+   DESC_INFO            varchar(200),
+   CREATE_BY            varchar(40) not null,
+   CREATE_TIME          timestamp not null,
+   UPDATE_BY            varchar(40) not null,
+   UPDATE_TIME          timestamp not null,
+   primary key (FUNC_CODE)
+);
+
+/*==============================================================*/
+/* Table: SYS_LOG                                               */
+/*==============================================================*/
+create table SYS_LOG
+(
+   LOG_TASK             varchar(100) not null,
+   LOG_TIME             timestamp not null,
+   LOG_TEXT             varchar(1000) not null,
+   REF01                varchar(200),
+   REF02                varchar(200),
+   REF03                varchar(200),
+   REF04                varchar(200),
+   REF05                varchar(200),
+   REF06                varchar(200),
+   REF07                varchar(200),
+   REF08                varchar(200),
+   REF09                varchar(200),
+   REF10                varchar(200)
+);
+
+/*==============================================================*/
+/* Table: SYS_PARAM                                             */
+/*==============================================================*/
+create table SYS_PARAM
+(
+   PARAM_CODE           varchar(40) not null,
+   PARAM_NAME           varchar(40),
+   PARAM_VALUE          varchar(40),
+   DESC_INFO            varchar(200),
+   CREATE_BY            varchar(40) not null,
+   CREATE_TIME          timestamp not null,
+   UPDATE_BY            varchar(40) not null,
+   UPDATE_TIME          timestamp not null,
+   primary key (PARAM_CODE)
+);
+
+/*==============================================================*/
+/* Table: SYS_ROLE                                              */
+/*==============================================================*/
+create table SYS_ROLE
+(
+   ROLE_CODE            varchar(40) not null,
+   ROLE_NAME            varchar(40),
+   DISABLE_FLAG         varchar(1),
+   DESC_INFO            varchar(200),
+   CREATE_BY            varchar(40) not null,
+   CREATE_TIME          timestamp not null,
+   UPDATE_BY            varchar(40) not null,
+   UPDATE_TIME          timestamp not null,
+   primary key (ROLE_CODE)
+);
+
+/*==============================================================*/
+/* Table: SYS_ROLE_FUNC                                         */
+/*==============================================================*/
+create table SYS_ROLE_FUNC
+(
+   ROLE_CODE            varchar(40) not null,
+   FUNC_CODE            varchar(40) not null,
+   primary key (ROLE_CODE, FUNC_CODE)
+);
+
+/*==============================================================*/
+/* Table: SYS_TASK                                              */
+/*==============================================================*/
+create table SYS_TASK
+(
+   TASK_CODE            varchar(40) not null,
+   TASK_NAME            varchar(100) not null,
+   LAST_TIME            timestamp,
+   key AK_SYS_TASK_01 (TASK_CODE)
+);
+
+/*==============================================================*/
+/* Table: SYS_USER                                              */
+/*==============================================================*/
+create table SYS_USER
+(
+   USER_ID              varchar(40) not null,
+   PASSWORD             varchar(128) not null,
+   USER_NAME            varchar(40) not null,
+   ROLE_CODE            varchar(40),
+   ORG_ID               varchar(32),
+   EMAIL                varchar(40),
+   LOGIN_COUNT          numeric(10,0),
+   LAST_LOGIN_TIME      timestamp,
+   LAST_LOGIN_IP        varchar(40),
+   DISABLE_FLAG         varchar(1),
+   DESC_INFO            varchar(200),
+   CREATE_BY            varchar(40) not null,
+   CREATE_TIME          timestamp not null,
+   UPDATE_BY            varchar(40) not null,
+   UPDATE_TIME          timestamp not null,
+   primary key (USER_ID),
+   key AK_SYS_USER_01 (USER_NAME)
+);
+
+alter table DAT_CHECK_DATA add constraint FK_DAT_CHECK_DATA_EQUIP foreign key (EQUIP_ID)
+      references MST_EQUIP (EQUIP_ID) on delete restrict on update restrict;
+
+alter table DAT_CHECK_DATA add constraint FK_DAT_CHECK_DATA_SITE foreign key (SITE_ID)
+      references MST_SITE (SITE_ID) on delete restrict on update restrict;
+
+alter table MST_EQUIP add constraint FK_MST_EQUIP_SITE foreign key (SITE_ID)
+      references MST_SITE (SITE_ID) on delete restrict on update restrict;
+
+alter table MST_ORG add constraint FK_MST_ORG_DIST foreign key (DIST_CODE)
+      references MST_DIST (DIST_CODE) on delete restrict on update restrict;
+
+alter table MST_ORG add constraint FK_MST_ORG_ORG foreign key (PARENT_ID)
+      references MST_ORG (ORG_ID) on delete restrict on update restrict;
+
+alter table MST_ORG_REF add constraint FK_MST_ORG_REF_ORG foreign key (ORG_ID)
+      references MST_ORG (ORG_ID) on delete restrict on update restrict;
+
+alter table MST_ORG_REF add constraint FK_MST_ORG_REF_PARENT foreign key (PARENT_ID)
+      references MST_ORG (ORG_ID) on delete restrict on update restrict;
+
+alter table MST_SITE add constraint FK_MST_SITE_DIST foreign key (DIST_CODE)
+      references MST_DIST (DIST_CODE) on delete restrict on update restrict;
+
+alter table MST_SITE add constraint FK_MST_SITE_ORG foreign key (ORG_ID)
+      references MST_ORG (ORG_ID) on delete restrict on update restrict;
+
+alter table SYS_ROLE_FUNC add constraint FK_SYS_ROLE_FUNC_FUNC foreign key (FUNC_CODE)
+      references SYS_FUNC (FUNC_CODE) on delete restrict on update restrict;
+
+alter table SYS_ROLE_FUNC add constraint FK_SYS_ROLE_FUNC_ROLE foreign key (ROLE_CODE)
+      references SYS_ROLE (ROLE_CODE) on delete restrict on update restrict;
+
+alter table SYS_USER add constraint FK_SYS_USER_ROLE foreign key (ROLE_CODE)
+      references SYS_ROLE (ROLE_CODE) on delete restrict on update restrict;
+
