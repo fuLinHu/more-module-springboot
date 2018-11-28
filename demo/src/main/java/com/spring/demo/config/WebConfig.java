@@ -29,7 +29,9 @@ public class WebConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(timeInterceptor);
+		/*registry.addInterceptor(new JJRUserLoginInterceptor()).addPathPatterns("/xx/**")
+				.excludePathPatterns("/xx/**");*/
+		registry.addInterceptor(timeInterceptor).addPathPatterns("/user/*");
 	}
 	
 	@Bean
@@ -41,7 +43,7 @@ public class WebConfig implements WebMvcConfigurer {
 		registrationBean.setFilter(timeFilter);
 		
 		List<String> urls = new ArrayList<>();
-		urls.add("/*");
+		urls.add("/user/*");
 		registrationBean.setUrlPatterns(urls);
 		
 		return registrationBean;
