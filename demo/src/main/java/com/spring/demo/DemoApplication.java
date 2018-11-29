@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
-@EnableAutoConfiguration(exclude = {
+/*@EnableAutoConfiguration(exclude = {
         SecurityAutoConfiguration.class
-})//忽略springsecurity
+})//忽略springsecurity*/
 @EnableSwagger2
 public class DemoApplication {
 
