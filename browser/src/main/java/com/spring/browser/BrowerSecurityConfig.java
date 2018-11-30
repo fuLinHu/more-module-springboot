@@ -25,8 +25,11 @@ public class BrowerSecurityConfig extends WebSecurityConfigurerAdapter {
         //log.debug("Using default configure(HttpSecurity). If subclassed this will potentially override subclass configure(HttpSecurity).");
         //设置登录,注销，表单登录不用拦截，其他请求要拦截
         http.formLogin()
+                .loginPage("/imooc-signIn.html")
+                .loginProcessingUrl("")
                 .and()
                 .authorizeRequests()
+                .antMatchers("/imooc-signIn.html").permitAll() //指明哪些路径可以通过
                 .anyRequest()
                 .authenticated();
 

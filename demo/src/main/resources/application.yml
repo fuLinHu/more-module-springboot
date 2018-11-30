@@ -6,6 +6,8 @@ spring:
     password: root
   session:
     store-type: none
+  mvc:
+    static-path-pattern: /**
 #  security:
 #    user:
 #      password: 123456
