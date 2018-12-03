@@ -28,6 +28,8 @@ server:
       timeout:
         timeout: 600
 
+
+
 #
 #
 #gwf:
@@ -72,3 +74,8 @@ server:
 
 
 
+#自定义属性
+flh1:
+  scurity:
+    browser:
+      signUpUrl: /demo-signUp11.html

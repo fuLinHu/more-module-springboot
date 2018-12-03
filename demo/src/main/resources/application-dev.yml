@@ -1,0 +1,6 @@
+
+#自定义属性
+flh:
+  scurity:
+    browser:
+      signUpUrl: /demo-signUp11.html
