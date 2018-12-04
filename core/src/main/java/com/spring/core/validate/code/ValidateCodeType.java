@@ -3,7 +3,8 @@
  */
 package com.spring.core.validate.code;
 
-import com.imooc.security.core.properties.SecurityConstants;
+
+import com.spring.core.properties.SecurityConstants;
 
 /**
  * @author zhailiang

@@ -3,10 +3,11 @@
  */
 package com.spring.core.validate.code.sms;
 
-import com.imooc.security.core.properties.SecurityProperties;
-import com.imooc.security.core.validate.code.ValidateCode;
-import com.imooc.security.core.validate.code.ValidateCodeGenerator;
-import org.apache.commons.lang.RandomStringUtils;
+
+import com.spring.core.properties.SecurityProperties;
+import com.spring.core.validate.code.ValidateCode;
+import com.spring.core.validate.code.ValidateCodeGenerator;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
