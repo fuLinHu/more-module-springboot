@@ -47,7 +47,12 @@ public class BrowerSecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(imoocAuthenticationFailureHandler)//登录成功的处理
                 .and()
                 .authorizeRequests()
-                .antMatchers("/user/test","/test",SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,securityProperties.getBrowser().getLoginPage()).permitAll() //指明哪些路径可以通过
+                .antMatchers(
+                        "/user/test",
+                        "/test",
+                        SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
+                        securityProperties.getBrowser().getLoginPage()
+                ).permitAll() //指明哪些路径可以通过
                 .anyRequest()
                 .authenticated()
                 .and()
