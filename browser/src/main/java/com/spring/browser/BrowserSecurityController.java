@@ -6,7 +6,7 @@ package com.spring.browser;
 
 import com.spring.browser.support.SimpleResponse;
 import com.spring.core.properties.SecurityConstants;
-//import com.spring.core.properties.SecurityProperties;
+import com.spring.core.properties.SecurityProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,8 +42,8 @@ public class BrowserSecurityController {
 
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-/*	@Autowired
-	private SecurityProperties securityProperties;*/
+	@Autowired
+	private SecurityProperties securityProperties;
 
 /*	@Autowired
 	private ProviderSignInUtils providerSignInUtils;*/
@@ -67,7 +67,7 @@ public class BrowserSecurityController {
 			String targetUrl = savedRequest.getRedirectUrl();
 			logger.info("引发跳转的请求是:" + targetUrl);
 			if (StringUtils.endsWithIgnoreCase(targetUrl, ".html")) {
-				//redirectStrategy.sendRedirect(request, response, securityProperties.getBrowser().getLoginPage());
+				redirectStrategy.sendRedirect(request, response, securityProperties.getBrowser().getLoginPage());
 			}
 		}
 

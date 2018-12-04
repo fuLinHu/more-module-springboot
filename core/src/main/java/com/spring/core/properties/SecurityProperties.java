@@ -10,7 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  *
  */
 @ConfigurationProperties(prefix = "flh.security")
-public class SecurityProperties1 {
+public class SecurityProperties {
 	
 	private BrowserProperties browser = new BrowserProperties();
 	

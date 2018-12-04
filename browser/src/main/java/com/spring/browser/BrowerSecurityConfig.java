@@ -2,6 +2,7 @@ package com.spring.browser;
 
 import com.spring.core.properties.SecurityConstants;
 //import com.spring.core.properties.SecurityProperties;
+import com.spring.core.properties.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,13 +12,21 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @Slf4j
 public class BrowerSecurityConfig extends WebSecurityConfigurerAdapter {
 
-   /* @Autowired
-    private SecurityProperties securityProperties;*/
+    @Autowired
+    private SecurityProperties securityProperties;
+
+    @Autowired
+    protected AuthenticationSuccessHandler imoocAuthenticationSuccessHandler;
+
+    @Autowired
+    protected AuthenticationFailureHandler imoocAuthenticationFailureHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -34,9 +43,11 @@ public class BrowerSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.loginPage("/imooc-signIn.html")//自定义的登录页面
                 .loginPage("/authentication/require") //跳转到一个controller层，然后在那里面进行控制跳转
                 .loginProcessingUrl("/authentication/form") //可以任意写，不用实现，但必须和登录表单post、请求action对应
+                .successHandler(imoocAuthenticationSuccessHandler)//登录成功的处理
+                .failureHandler(imoocAuthenticationFailureHandler)//登录成功的处理
                 .and()
                 .authorizeRequests()
-                .antMatchers("/user/test",SecurityConstants.DEFAULT_UNAUTHENTICATION_URL/*,securityProperties.getBrowser().getLoginPage()*/).permitAll() //指明哪些路径可以通过
+                .antMatchers("/user/test","/test",SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,securityProperties.getBrowser().getLoginPage()).permitAll() //指明哪些路径可以通过
                 .anyRequest()
                 .authenticated()
                 .and()

@@ -4,6 +4,8 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/test44?useUnicode=yes&characterEncoding=utf-8&useSSL=true
     username: root
     password: root
+  profiles:
+    active: core
   session:
     store-type: none
   mvc:
@@ -75,7 +77,8 @@ server:
 
 
 #自定义属性
-flh1:
-  scurity:
+flh:
+  security:
     browser:
-      signUpUrl: /demo-signUp11.html
+      #loginPage: /demo-signIn.html
+      loginType: REDIRECT

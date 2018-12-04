@@ -3,7 +3,7 @@
  */
 package com.spring.core;
 
-import com.spring.core.properties.SecurityProperties1;
+import com.spring.core.properties.SecurityProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  *
  */
 @Configuration
-@EnableConfigurationProperties(SecurityProperties1.class)
+@EnableConfigurationProperties(SecurityProperties.class)
 public class SecurityCoreConfig {
 
 }
