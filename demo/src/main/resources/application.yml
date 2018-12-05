@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/test44?useUnicode=yes&characterEncoding=utf-8&useSSL=true
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=yes&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
     username: root
     password: root
   profiles:
@@ -79,6 +79,9 @@ server:
 #自定义属性
 flh:
   security:
-    browser:
+    #browser:
       #loginPage: /demo-signIn.html
-      loginType: REDIRECT
+      #loginType: JSON   #REDIRECT
+    code:
+      image:
+        url: /user/*
