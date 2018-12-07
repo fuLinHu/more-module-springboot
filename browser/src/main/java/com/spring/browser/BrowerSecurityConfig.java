@@ -3,7 +3,6 @@ package com.spring.browser;
 import com.spring.core.authentication.AbstractChannelSecurityConfig;
 import com.spring.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.spring.core.properties.SecurityConstants;
-//import com.spring.core.properties.SecurityProperties;
 import com.spring.core.properties.SecurityProperties;
 import com.spring.core.validate.code.ValidateCodeSecurityConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -11,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,8 +17,11 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
+
+//import com.spring.core.properties.SecurityProperties;
 
 @Configuration
 @Slf4j
@@ -45,7 +45,8 @@ public class BrowerSecurityConfig extends AbstractChannelSecurityConfig {
     private UserDetailsService userDetailsService;
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
-
+    @Autowired
+    private SpringSocialConfigurer imoocSocialSecurityConfig;
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -68,6 +69,8 @@ public class BrowerSecurityConfig extends AbstractChannelSecurityConfig {
             http.apply(validateCodeSecurityConfig)
                 .and()
                 .apply(smsCodeAuthenticationSecurityConfig)
+                .and()
+                .apply(imoocSocialSecurityConfig)
                 .and()
                 .rememberMe()
                 .tokenRepository(persistentTokenRepository())
